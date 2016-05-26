@@ -1,9 +1,6 @@
 package Interfaz;
 
 import Datos.DataBase;
-import Datos.DocumentoXML;
-import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,14 +9,20 @@ import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+
+/*
+Listado de almacenes ordenado alfabéticamente
+Introducir un producto y mostrar los almacenes a los que se ha servido.
+Introducir un almacén y mostrar sus pedidos (nº pedido y fecha)
+*/
+
+
+
+
 
 /**
  * Esta clase muestra el Menú Principal con un listado de opciones relacionados
@@ -51,7 +54,7 @@ public class MenuPrincipal extends JFrame implements ActionListener, WindowListe
     }
     
     private void initComponents() {
-        String textoBotones[]={"Alta Almacen", "Baja Almacen","Modificación", "Listados","Fin"};
+        String textoBotones[]={"Alta Almacen", "Baja Almacen","Modificación", "Listados","Crear Documento XML","Fin"};
         
         botones=new JButton[textoBotones.length];
         //Utilizo todo el fondo del JFrame
@@ -89,8 +92,10 @@ public class MenuPrincipal extends JFrame implements ActionListener, WindowListe
                     VentanaModifica vm1 = new VentanaModifica(db);
                     break;
                 case "3":
-                    //VentanaListado vl1= new VentanaListado(db.ejecutaConsulta("SELECT * from almacenes"));
+                    VentanaListado vl1= new VentanaListado (db);
                     break;
+                case "4":
+                    break;                
                 default:
                     fin();
                     break;

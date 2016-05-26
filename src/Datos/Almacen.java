@@ -53,6 +53,16 @@ public class Almacen {
         return datos;
     }
     
+    public String[] getArrayAlmacen(){
+      String[] array = new String[5];
+      array[0]=String.valueOf(id);
+      array[1]=razonSocial;
+      array[2]=sedeSocial;
+      array[3]=telf;
+      array[4]=String.valueOf(codPostal);
+      
+      return array;
+    }
     
     /**
      * @return the id

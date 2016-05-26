@@ -168,6 +168,7 @@ public class DataBase {
         } catch (SQLException ex) {
             System.out.println("Error sql: " + ex.getMessage());
         }
+    System.out.println("SE EJECUTO CONSULTA BORRAR!!!");
         return rs;
     }
     
@@ -181,30 +182,50 @@ public class DataBase {
         }
     }
     
-    public ArrayList listado(){
-        //con el get string del rs hacer uno y guardarlo en un almacen
-        // en el constructor del alumno nombre sera getstring(1) y asi guardar en un almacen y luego el almacen en un arraylist
-        ArrayList <Almacen> listado = null;  
-        if(abrirConexion()){
-            ResultSet rs= null;
-            rs=ejecutaConsulta("SELECT * from alumnos");
-            
-            try {
-                while(rs.next()){
-                    listado.add(new Almacen(rs.getInt(1),rs.getString(3), rs.getString(5), rs.getString(6), rs.getInt(7)));                    
-                }
-                
+    public ArrayList <Almacen> listado1(){
+        ResultSet rs= null;
+        PreparedStatement st =null;
+        ArrayList <Almacen> listado=new ArrayList<>();
+        String sentencia="select * from almacenes order by RAZON_SOCIAL";
+        try {
+            st=conexion.prepareStatement(sentencia);                
+            rs=st.executeQuery();
+           while(rs.next()){
+                Almacen al=new Almacen(rs.getInt(1),rs.getString(3), rs.getString(5), rs.getString(6), rs.getInt(7));
+                listado.add(al);
+            }
+            st.close();                
+            rs.close();
             } catch (SQLException ex) {
                 System.out.println("Error al cargar datos");
             }
-            cierraResultSet(rs);
-            return listado;
-        }else{
-            System.out.println("No se han encontrado Alumno");
-            return listado;
-        }
+            finally{
+                return listado;
+            }    
     }
     
+    public ArrayList <Almacen> listado2(int prodid){
+        ResultSet rs= null;
+        PreparedStatement st =null;
+        ArrayList <Almacen> listado=new ArrayList<>();
+        String sentencia="select al.* from almacenes al join HISTORICO_VENTAS hv on (al.ID_ALMACEN=hv.almacenes_id_almacen) join LINEA_HISTORICO_VENTAS lv on (hv.ID_HIS_VEN=lv.historico_ventas_id_his_ven) where lv.PRODUCTOS_ID_PROD=?";
+        try {
+            st=conexion.prepareStatement(sentencia);  
+            st.setString(1,String.valueOf(prodid));
+            rs=st.executeQuery();
+           while(rs.next()){
+                Almacen al=new Almacen(rs.getInt(1),rs.getString(3), rs.getString(5), rs.getString(6), rs.getInt(7));
+                listado.add(al);
+            }
+            st.close();                
+            rs.close();
+            } catch (SQLException ex) {
+                System.out.println("Error al cargar datos");
+            }
+            finally{
+                return listado;
+            }        
+    }
 }
     /*
     PreparesStatement updateSales =con.prepareStatement("UPDATECOFFEES SET SALES =? WHERE COF_NAME LIKE ? ");
