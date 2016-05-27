@@ -5,7 +5,6 @@
  */
 package Interfaz;
 
-import Datos.Almacen;
 import Datos.DataBase;
 import java.awt.GridLayout;
 import javax.swing.JLabel;
@@ -15,36 +14,36 @@ import javax.swing.JTextField;
  *
  * @author Alumno
  */
-public class VentanaBaja extends Ventana{
+public class Valmacen extends Ventana{
 
     JLabel etiquetaID;
-    JTextField id;
+    JTextField almid;
     DataBase db;
     
-    public VentanaBaja(DataBase db) {
+    public Valmacen(DataBase db) {
         this.db=db;
     }
 
     @Override
     public void setTitle() {
-        this.setTitle("Baja Almacén");
+        this.setTitle("Almacén");
     }
 
     @Override
     public void confirmar() {
         try{
-            if(id.getText().length()>0){
-                if(idValido()){
-                    if(db.baja(new Almacen(Integer.parseInt(id.getText())))>0){
-                        System.out.println("Almacen dado de baja con exito");
-                        limpiaVentana();
-                    }else{
-                        ventanaError("No se ha encontrado ningún almacén con ese id");
-                    }                    
+            if(almid.getText().length()>0){
+              if(idValido()){  
+                if(!(db.listado3(Integer.parseInt(almid.getText())).isEmpty())){                    
+                    VentanaListado3 v2 = new VentanaListado3(db,Integer.parseInt(almid.getText()));
+                    limpiaVentana();
+                }else{
+                    ventanaError("No existen pedidos de ese Almacén");
                 }
+              }  
             }else{
-                ventanaError("tienes que introducir un id");
-            }
+                ventanaError("tienes que introducir un almacen_id");
+            }     
         }catch(NumberFormatException e){
             ventanaError("valor del id inválido");
         }
@@ -61,20 +60,20 @@ public class VentanaBaja extends Ventana{
     }
 
     @Override
-    public void creaCuerpo() {   
+    public void creaCuerpo() {
         
-        cuerpo.setLayout(new GridLayout(1,2,5,5));     
+        cuerpo.setLayout(new GridLayout(1,2,5,5)); 
         //EL ID debe ser borrardo y en alta poner insert into (sec.nexvalue)               
         etiquetaID = new JLabel("almacén id: ");        
-        id =new JTextField();        
+        almid =new JTextField();        
             cuerpo.add(etiquetaID);
-            cuerpo.add(id);            
-        contenedor.add(cuerpo);    
+            cuerpo.add(almid);      
+        contenedor.add(cuerpo);
     }
     
     private boolean idValido(){
         try{
-            Integer.parseInt(id.getText());
+            Integer.parseInt(almid.getText());
             return true;
         }catch(NumberFormatException e){
             throw e;
@@ -82,6 +81,6 @@ public class VentanaBaja extends Ventana{
     }
     
      void limpiaVentana(){
-        id.setText(null);
+        almid.setText(null);
     }
 }

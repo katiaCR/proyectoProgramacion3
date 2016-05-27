@@ -54,7 +54,7 @@ public class DocumentoXML {
                 //ME RECORRO EL RESULTSET
                 ////////////////////////////////EXAMEN/////////////////////////////////////
                 //ahora creamos un elemento con los datos del array 
-                //por cada nombre crearemos una <persona>
+                //por cada nombre crearemos una <almacen>
                 while(listado.next()){
                     Element etiquetaAlumno= document.createElement("Alumno");
                     Element etiquetaNombre = document.createElement("Nombre");

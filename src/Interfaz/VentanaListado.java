@@ -87,7 +87,7 @@ public class VentanaListado extends JFrame implements ActionListener{
                     Vproducto vp= new Vproducto(db);
                     break;
                 case "2":
-                    VentanaListado3 v3 = new VentanaListado3();
+                    Valmacen va = new Valmacen(db);
                     break;                                
                 default:
                     this.dispose();

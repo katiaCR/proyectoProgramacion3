@@ -210,23 +210,48 @@ public class DataBase {
         ArrayList <Almacen> listado=new ArrayList<>();
         String sentencia="select al.* from almacenes al join HISTORICO_VENTAS hv on (al.ID_ALMACEN=hv.almacenes_id_almacen) join LINEA_HISTORICO_VENTAS lv on (hv.ID_HIS_VEN=lv.historico_ventas_id_his_ven) where lv.PRODUCTOS_ID_PROD=?";
         try {
-            st=conexion.prepareStatement(sentencia);  
+            st=conexion.prepareStatement(sentencia);
             st.setString(1,String.valueOf(prodid));
             rs=st.executeQuery();
            while(rs.next()){
                 Almacen al=new Almacen(rs.getInt(1),rs.getString(3), rs.getString(5), rs.getString(6), rs.getInt(7));
                 listado.add(al);
-            }
-            st.close();                
+            }            
+            st.close();
             rs.close();
             } catch (SQLException ex) {
                 System.out.println("Error al cargar datos");
             }
             finally{
                 return listado;
-            }        
+            }
+    }
+    
+    public ArrayList <Pedido> listado3(int almid){
+        ResultSet rs= null;
+        PreparedStatement st =null;
+        ArrayList <Pedido> listado=new ArrayList<>();
+        String sentencia="select ID_PED_ALMA ,FECHA from PEDIDO_ALMACEN where ALMACENES_ID_ALMACEN=?";
+        try {
+            st=conexion.prepareStatement(sentencia);
+            st.setString(1,String.valueOf(almid));
+            rs=st.executeQuery();
+           while(rs.next()){
+                Pedido pe=new Pedido(rs.getInt(1),rs.getString(2));
+                listado.add(pe);
+            }            
+            st.close();
+            rs.close();
+            } catch (SQLException ex) {
+                System.out.println("Error al cargar datos");
+            }
+            finally{
+                return listado;
+            }
     }
 }
+
+
     /*
     PreparesStatement updateSales =con.prepareStatement("UPDATECOFFEES SET SALES =? WHERE COF_NAME LIKE ? ");
     updateSales.setInt(1; 75);

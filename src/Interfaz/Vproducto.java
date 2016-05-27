@@ -34,12 +34,17 @@ public class Vproducto extends Ventana{
     public void confirmar() {
         try{
             if(prodid.getText().length()>0){
-                if(idValido()){
-                    VentanaListado2 v2 = new VentanaListado2(db,Integer.parseInt(prodid.getText()));   
+              if(idValido()){  
+                if(!(db.listado2(Integer.parseInt(prodid.getText())).isEmpty())){                    
+                    VentanaListado2 v2 = new VentanaListado2(db,Integer.parseInt(prodid.getText()));
+                    limpiaVentana();
+                }else{
+                    ventanaError("No existen almacenes que hayan pedido ese producto");
                 }
+              }  
             }else{
                 ventanaError("tienes que introducir un producto_id");
-            }
+            }     
         }catch(NumberFormatException e){
             ventanaError("valor del id inválido");
         }
@@ -60,7 +65,7 @@ public class Vproducto extends Ventana{
         
         cuerpo.setLayout(new GridLayout(1,2,5,5)); 
         //EL ID debe ser borrardo y en alta poner insert into (sec.nexvalue)               
-        etiquetaID = new JLabel("producto_id: ");        
+        etiquetaID = new JLabel("producto id: ");        
         prodid =new JTextField();        
             cuerpo.add(etiquetaID);
             cuerpo.add(prodid);      

@@ -55,7 +55,7 @@ public class VentanaModifica extends Ventana{
                 }
             }
         }catch(NumberFormatException e){
-            ventanaError("No se ha podido dar de alta datos incorrectos");
+            ventanaError("No se ha podido modificar datos incorrectos");
         }       
     }
 
@@ -119,7 +119,7 @@ public class VentanaModifica extends Ventana{
                 return true;              
             }
         }
-        ventanaError("Todos lo campos son obligatorios");
+        ventanaError("Todos los campos son obligatorios");
         return false;
     }
     

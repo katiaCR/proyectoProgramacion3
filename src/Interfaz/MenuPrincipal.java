@@ -22,8 +22,6 @@ Introducir un almacén y mostrar sus pedidos (nº pedido y fecha)
 
 
 
-
-
 /**
  * Esta clase muestra el Menú Principal con un listado de opciones relacionados
  * a la gestión de un Almacen
@@ -54,7 +52,7 @@ public class MenuPrincipal extends JFrame implements ActionListener, WindowListe
     }
     
     private void initComponents() {
-        String textoBotones[]={"Alta Almacen", "Baja Almacen","Modificación", "Listados","Crear Documento XML","Fin"};
+        String textoBotones[]={"Alta Almacen", "Baja Almacen","Modificar Datos", "Listados","Crear Documento XML","Fin"};
         
         botones=new JButton[textoBotones.length];
         //Utilizo todo el fondo del JFrame
@@ -94,7 +92,7 @@ public class MenuPrincipal extends JFrame implements ActionListener, WindowListe
                 case "3":
                     VentanaListado vl1= new VentanaListado (db);
                     break;
-                case "4":
+                case "4":                    
                     break;                
                 default:
                     fin();

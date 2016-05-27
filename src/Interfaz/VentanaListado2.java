@@ -11,6 +11,7 @@ import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.ListIterator;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -34,7 +35,7 @@ public class VentanaListado2 extends JFrame{
         this.prodid=prodid;
         almacenes= new ArrayList<>();
         this.db=db;
-        this.setTitle("Listado");
+        this.setTitle("Listado Almacenes por Pedido");
         this.setVisible(true);
         initComponents();
         this.pack();
@@ -42,14 +43,13 @@ public class VentanaListado2 extends JFrame{
         
     }    
      public void initComponents() {
-        
+        almacenes=db.listado2(prodid);
         contenedor = (JPanel) this.getContentPane();
         String[] cabecera = {"Id","Razón Social","Sede Social","Telefono Contacto","Código Postal"};
         modelo = new DefaultTableModel(cabecera,0);
         table = new JTable(modelo);
         JScrollPane scrollPane = new JScrollPane(table);
-        contenedor.add(scrollPane, BorderLayout.CENTER);        
-        almacenes=db.listado2(prodid);        
+        contenedor.add(scrollPane, BorderLayout.CENTER);      
         muestraFilas();
     }
      
@@ -60,5 +60,11 @@ public class VentanaListado2 extends JFrame{
             al= it.next();
             modelo.addRow(al.getArrayAlmacen());
         }
+     }  
+     public void ventanaError(String cadena) {
+        JOptionPane.showMessageDialog(
+                this, cadena,
+                "Error", JOptionPane.INFORMATION_MESSAGE);
+     
     }
 }
