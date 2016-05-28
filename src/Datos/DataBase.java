@@ -24,9 +24,9 @@ import oracle.jdbc.OracleDriver;
 public class DataBase {
     
     String servidor= "jdbc:oracle:thin:@localhost:";
-    String bd;/*= "1521:xe";*/
-    String password;/*= "case";*/
-    String user;/*= "central";*/
+    String bd;
+    String password;
+    String user;
     Connection conexion=null;
     
     public DataBase(String bd, String user, String password) {
@@ -34,10 +34,6 @@ public class DataBase {
         this.user = user;
         this.password = password;
     }
-    
-    /*public boolean buscaRegistro(String nombreBuscar){
-        retun false;
-    }*/
     
     public boolean abrirConexion() {
         boolean estado = false;
@@ -92,7 +88,6 @@ public class DataBase {
             st= conexion.prepareStatement(sentencia);
             st.setInt(1,al.getId());
             System.out.println("Baja: " + st.toString());
-            //en la n estara la sentencia que deseas ejecutar
             n = st.executeUpdate();
             st.close();        
         } catch (SQLException ex) {
@@ -137,7 +132,6 @@ public class DataBase {
     
     public void cierraResultSet(ResultSet rs) {
         try {
-            //cerramos el rs. porque garbage no puede eliminar el heap
             rs.close();
         } catch (SQLException ex) {
             System.out.println("Error con la base de datos: " + ex.getMessage());
@@ -150,7 +144,8 @@ public class DataBase {
         try {
             Statement st = conexion.createStatement();
             System.out.println("Sentencia: " +statement);
-            n = st.executeUpdate(statement); //Para que la ejecute.
+            n = st.executeUpdate(statement);
+            //Para que la ejecute.
         } catch (SQLException ex) {
             System.out.println("Exception: " +ex.getLocalizedMessage());
         }
@@ -250,18 +245,3 @@ public class DataBase {
             }
     }
 }
-
-
-    /*
-    PreparesStatement updateSales =con.prepareStatement("UPDATECOFFEES SET SALES =? WHERE COF_NAME LIKE ? ");
-    updateSales.setInt(1; 75);
-    updateSales.setString(2,"Colombia");
-    updateSales.executeUpdate();
-    */
-    
-    
-    /*public int baja (String nombre){
-    
-    
-    }*/
-    

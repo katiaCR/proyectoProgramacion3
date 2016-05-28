@@ -1,6 +1,7 @@
 package Interfaz;
 
 import Datos.DataBase;
+import Datos.DocumentoXML;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -92,7 +93,8 @@ public class MenuPrincipal extends JFrame implements ActionListener, WindowListe
                 case "3":
                     VentanaListado vl1= new VentanaListado (db);
                     break;
-                case "4":                    
+                case "4":
+                    DocumentoXML.escribo("Almacenes",db.listado1());
                     break;                
                 default:
                     fin();

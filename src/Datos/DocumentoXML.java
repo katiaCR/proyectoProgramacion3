@@ -5,12 +5,8 @@
  */
 package Datos;
 
-import java.io.IOException;
-import java.io.File;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.ArrayList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -34,53 +30,64 @@ import org.w3c.dom.Text;
  */
 public class DocumentoXML {
 
-    public static void escribo(String nombreDocumento, ResultSet listado){
+    public static void escribo(String nombreDocumento, ArrayList <Almacen> listado){
         
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db;
             
             try {
                 db = dbf.newDocumentBuilder();
+                
                 //Creamos el documento XML y le pasamos la etiqueta raiz
+                
                 DOMImplementation implementation = db.getDOMImplementation();
                 Document document = implementation.createDocument(null, nombreDocumento, null);
                 document.setXmlVersion("1.0");
+                
                 //Main Node: Primer ejemplos, sólo con el elemento raíz
                 Element raiz = document.getDocumentElement();
                 //ahora creamos un elemento con los datos del array
                 System.out.println("Raiz: " + raiz.getNodeName());
-                                
                 
-                //ME RECORRO EL RESULTSET
-                ////////////////////////////////EXAMEN/////////////////////////////////////
-                //ahora creamos un elemento con los datos del array 
-                //por cada nombre crearemos una <almacen>
-                while(listado.next()){
-                    Element etiquetaAlumno= document.createElement("Alumno");
-                    Element etiquetaNombre = document.createElement("Nombre");
-                    Element etiquetaNota = document.createElement("Nota_media");
+                for(Almacen al : listado){
+                    Element etiquetaAlmacen= document.createElement("Almacen");
+                                       
+                    Element etiquetaRazonSocial = document.createElement("Razon_Social");
+                    Element etiquetaSedeSocial = document.createElement("Sede_Social");
+                    Element etiquetaTelf = document.createElement("Telefono");
+                    Element etiquetaCoPo = document.createElement("Codigo_Postal");
                     
                     //Creamos los nodos del texto
-                    Text valorNombre= document.createTextNode(listado.getString(2));
-                    Text valorNota= document.createTextNode((listado.getInt(3)+ listado.getInt(4) + listado.getInt(5))/3 + "");
+                    Text valorRazonSocial= document.createTextNode(al.getRazonSocial());
+                    Text valorSedeSocial= document.createTextNode(al.getSedeSocial());
+                    Text valorTelf= document.createTextNode(al.getTelf());
+                    Text valorCoPo= document.createTextNode(Integer.toString(al.getCodPostal()));
+                    
                     //añadimos el texto a las etiquetas
-                    etiquetaNombre.appendChild(valorNombre);
-                    etiquetaNota.appendChild(valorNota);
+                    etiquetaRazonSocial.appendChild(valorRazonSocial);
+                    etiquetaSedeSocial.appendChild(valorSedeSocial);
+                    etiquetaTelf.appendChild(valorTelf);
+                    etiquetaCoPo.appendChild(valorCoPo);
+                                        
                     
-                    System.out.println("nombre: " + etiquetaNombre.getTextContent());
-                    System.out.println("nota_media: " + etiquetaNota.getTextContent());
+                                        
+                    //añadimos las etiquetas al Almacén
+                    etiquetaAlmacen.appendChild(etiquetaRazonSocial);
+                    etiquetaAlmacen.appendChild(etiquetaSedeSocial);
+                    etiquetaAlmacen.appendChild(etiquetaTelf);
+                    etiquetaAlmacen.appendChild(etiquetaCoPo);
                     
-                    //añadimos las etiquetas nombre y  nota al alumno
-                    etiquetaAlumno.appendChild(etiquetaNombre);
-                    etiquetaAlumno.appendChild(etiquetaNota);
-                    //añadimos el atributo id al alumno
-                    etiquetaAlumno.setAttribute("id",Integer.toString(listado.getInt(1)));
+                    //añadimos el atributo id al Almacén
+                    etiquetaAlmacen.setAttribute("id",Integer.toString(al.getId()));
                     
-                    //añadimos la etiqueta persona a la etiqueta raiz
-                    System.out.println("alumno: " + etiquetaAlumno.getChildNodes().item(0).getTextContent());
-                    raiz.appendChild(etiquetaAlumno);//pegamos el elemento a la raiz "Documento"
+                    //añadimos la etiqueta almacén a la etiqueta raiz
+                    System.out.println("almacén: " + etiquetaAlmacen.getChildNodes().item(0).getTextContent());
+                    System.out.println("razon_social: " + etiquetaRazonSocial.getTextContent());
                     
+                    //pegamos el elemento a la raiz "Documento"
+                    raiz.appendChild(etiquetaAlmacen);                                        
                 }
+                
                 //Generate XML
                 Source source = new DOMSource(document);
                 System.out.println("documento: " + document.getDocumentElement().getNodeName());
@@ -90,21 +97,15 @@ public class DocumentoXML {
                 
                 transformer.setOutputProperty(OutputKeys.INDENT, "yes");
                 transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-                transformer.transform(source, result);
-                
-                listado.close();
-                
-            } catch (ParserConfigurationException ex) {
-                System.out.println("Error escribiendo Fichero");
-            } catch (TransformerConfigurationException ex) {
-                System.out.println("Error escribiendo Fichero");
-            } catch (TransformerException ex) {
-                System.out.println("Error escribiendo Fichero");
-            } catch (SQLException ex) {
-            Logger.getLogger(DocumentoXML.class.getName()).log(Level.SEVERE, null, ex);
-            }     
+                transformer.transform(source, result);                
             
-        
+            } catch (ParserConfigurationException ex) {
+                System.out.println("Error escribiendo 1");
+            } catch (TransformerConfigurationException ex) {
+                System.out.println("Error escribiendo 2");
+            } catch (TransformerException ex) {
+                System.out.println("Error escribiendo 3");
+            }       
     }
 
 }
