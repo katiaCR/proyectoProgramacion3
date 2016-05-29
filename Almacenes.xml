@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Almacenes>
+<Almacen id="1">
+<Razon_Social>Alcampo</Razon_Social>
+<Sede_Social>C/ Palomica, nº 24</Sede_Social>
+<Telefono>376231254</Telefono>
+<Codigo_Postal>11111</Codigo_Postal>
+</Almacen>
+<Almacen id="4">
+<Razon_Social>Frutería Muchita</Razon_Social>
+<Sede_Social>C/ Indignación, nº 73</Sede_Social>
+<Telefono>376400432</Telefono>
+<Codigo_Postal>42685</Codigo_Postal>
+</Almacen>
+<Almacen id="2">
+<Razon_Social>Mercadona</Razon_Social>
+<Sede_Social>C/ Baker, nº 99</Sede_Social>
+<Telefono>876753834</Telefono>
+<Codigo_Postal>63783</Codigo_Postal>
+</Almacen>
+<Almacen id="3">
+<Razon_Social>Panadería Juanito</Razon_Social>
+<Sede_Social>C/ Remildo, nº 1</Sede_Social>
+<Telefono>554763523</Telefono>
+<Codigo_Postal>35727</Codigo_Postal>
+</Almacen>
+<Almacen id="5">
+<Razon_Social>Rimbombante</Razon_Social>
+<Sede_Social>C/ Palomica, nº 24</Sede_Social>
+<Telefono>776231254</Telefono>
+<Codigo_Postal>45671</Codigo_Postal>
+</Almacen>
+</Almacenes>
