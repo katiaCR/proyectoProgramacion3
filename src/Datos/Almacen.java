@@ -5,11 +5,10 @@
  */
 package Datos;
 
-import java.util.ArrayList;
-
 /**
- *
- * @author katia abigail
+ * Esta clase crea y contiene los datos de un Almacén
+  * @author katia abigail
+  * @version 28/05/2016
  */
 public class Almacen {
     private int id;
@@ -18,6 +17,13 @@ public class Almacen {
     private String telf;
     private int codPostal;
 
+    /**
+     * Este contructor es para dar de alta a un almacen
+     * @param razonSocial
+     * @param sedeSocial
+     * @param telf
+     * @param codPostal 
+     */
     public Almacen(String razonSocial, String sedeSocial, String telf, int codPostal) {
         this.razonSocial = razonSocial;
         this.sedeSocial = sedeSocial;
@@ -25,6 +31,14 @@ public class Almacen {
         this.codPostal = codPostal;
     }
     
+    /**
+     * Este constructor es para mostrar un almacen en un listado con todos sus datos
+     * @param id
+     * @param razonSocial
+     * @param sedeSocial
+     * @param telf
+     * @param codPostal 
+     */
     public Almacen(int id, String razonSocial, String sedeSocial, String telf, int codPostal) {
         this.id = id;
         this.razonSocial = razonSocial;
@@ -32,19 +46,27 @@ public class Almacen {
         this.telf = telf;
         this.codPostal = codPostal;
     }
-
+    
+    /**
+     * Este constructor es para buscar o borrar un almacen que coincida con ese id
+     * @param id 
+     */
     public Almacen(int id){
         this.id=id;
     }
     
     public void muestraDatos(){
-        System.out.println("id: " +  id + 
+        System.out.println(
                 " razon_social: " + razonSocial +
                 " sede_social: " + sedeSocial +
                 " teléfono_contacto: " + telf +
                 " código_postal: " + codPostal);    
     }
     
+    /**
+     * Devuelve los datos tipo String del almacen
+     * @return array de String con los datos
+     */
     public String[] getDatos(){
         String[] datos=new String[3];
         datos[0]=getRazonSocial();
@@ -53,6 +75,10 @@ public class Almacen {
         return datos;
     }
     
+    /**
+     * Convierte a String todos los datos del almacen
+     * @return un array de String con los datos
+     */
     public String[] getArrayAlmacen(){
       String[] array = new String[5];
       array[0]=String.valueOf(id);

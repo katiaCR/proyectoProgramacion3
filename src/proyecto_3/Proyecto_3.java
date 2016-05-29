@@ -9,7 +9,8 @@ import Datos.DataBase;
 import Interfaz.MenuPrincipal;
 
 /**
- *
+ * Esta clase se encarga de conectarse a la base de datos 
+ * y abrir el menú principal
  * @author katia abigail
  */
 public class Proyecto_3 {
@@ -26,13 +27,12 @@ public class Proyecto_3 {
         DataBase db = new DataBase(bd, user, password);
         
         if(db.abrirConexion()) {
-            System.out.println("NOS HEMOS CONECTADO!!!!!");
+            System.out.println("Se ha conectado a la base de datos");
             MenuPrincipal v1= new MenuPrincipal(db);       
         }
         else{
             System.out.println("No se ha podido conectar");
         }
-        //MenuPrincipal v1= new MenuPrincipal();
     }
     
 }

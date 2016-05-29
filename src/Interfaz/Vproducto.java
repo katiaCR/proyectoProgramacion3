@@ -5,15 +5,16 @@
  */
 package Interfaz;
 
-import Datos.Almacen;
 import Datos.DataBase;
 import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 /**
- *
- * @author Alumno
+ * Esta clase se encarga de crear una ventana
+ * para pedir el id valido de un pedido y generar un listado
+ * @author katia abigail
+ * @version 27/05/2016
  */
 public class Vproducto extends Ventana{
 
@@ -23,6 +24,8 @@ public class Vproducto extends Ventana{
     
     public Vproducto(DataBase db) {
         this.db=db;
+        this.setLocation(500, 230);
+        this.setSize(260, 125);
     }
 
     @Override
@@ -62,7 +65,6 @@ public class Vproducto extends Ventana{
 
     @Override
     public void creaCuerpo() {
-        
         cuerpo.setLayout(new GridLayout(1,2,5,5)); 
         //EL ID debe ser borrardo y en alta poner insert into (sec.nexvalue)               
         etiquetaID = new JLabel("producto id: ");        
@@ -72,6 +74,10 @@ public class Vproducto extends Ventana{
         contenedor.add(cuerpo);
     }
     
+    /**
+     * Comprueba el id
+     * @return true si es valido
+     */
     private boolean idValido(){
         try{
             Integer.parseInt(prodid.getText());
@@ -81,6 +87,9 @@ public class Vproducto extends Ventana{
         }
     }
     
+    /**
+     * Pone a null todos los campos
+     */
      void limpiaVentana(){
         prodid.setText(null);
     }

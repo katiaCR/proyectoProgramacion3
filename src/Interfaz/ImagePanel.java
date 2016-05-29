@@ -1,53 +1,24 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Interfaz;
 
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
-import javax.swing.ImageIcon;
 import javax.swing.JComponent;
-import javax.swing.JPanel;
 
 /**
- *
+ * Esta clase se encarga de añadir una imagen de fondo a una ventana
  * @author katia abigail
- 
-class ImagePanel  extends JPanel {
-
-  private Image img;
-
-  public ImagePanel(String img) {
-    this(new ImageIcon(img).getImage());
-  }
-
-  public ImagePanel(Image img) {
-    this.img = img;
-    Dimension size = new Dimension(img.getWidth(null), img.getHeight(null));
-    setPreferredSize(size);
-    setMinimumSize(size);
-    setMaximumSize(size);
-    setSize(size);
-    setLayout(null);
-  }
-
-  @Override
-  public void paintComponent(Graphics g) {
-    super.paintComponent(g);
-    g.drawImage(img, 0, 0, null);
-  }
-*/
+ * @version 16/05/2016
+ */
 class ImagePanel extends JComponent {
     private Image image;
     public ImagePanel(Image image) {
         this.image = image;
     }
+    
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(image, 0, 0, this);
     }
+    
 }

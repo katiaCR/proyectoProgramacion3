@@ -11,69 +11,59 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-/*
-Listado de almacenes ordenado alfabéticamente
-Introducir un producto y mostrar los almacenes a los que se ha servido.
-Introducir un almacén y mostrar sus pedidos (nº pedido y fecha)
-*/
-
-
-
 /**
- * Esta clase muestra el Menú Principal con un listado de opciones relacionados
- * a la gestión de un Almacen
+ * Esta clase muestra el Menú Principal con un listado de opciones relacionados a la gestión de un Almacen
  * @author katia abigail
  * @version 14/05/2016
  */
 public class MenuPrincipal extends JFrame implements ActionListener, WindowListener {
-    //JPanel contenedor;
+
     ImagePanel contenedor;
     JButton botones[];
     DataBase db;
     BufferedImage myImage;
     
+    /**
+     * Este contructor se encarga de configurar los aspectos de la ventana y agregar la BD
+     * @param db 
+     */
     public MenuPrincipal(DataBase db) {
         this.db=db;
         try {            
              myImage = ImageIO.read(new File("imagenes/fondo1.jpg"));
         } catch (IOException ex) {
             System.out.println("No se ha encontrado imagen");
-        }
-        //this.db=db;
+        }        
         this.setContentPane(new ImagePanel(myImage));
         this.setTitle("Gestión Almacenes");
         this.setVisible(true);
-        initComponents();         
+        initComponents();    
         this.pack();
+        this.setLocation(800, 420);
         this.setSize(350,250);
     }
     
+    /**
+     * Agrega los componentes a la ventana
+     */
     private void initComponents() {
         String textoBotones[]={"Alta Almacen", "Baja Almacen","Modificar Datos", "Listados","Crear Documento XML","Fin"};
         
         botones=new JButton[textoBotones.length];
-        //Utilizo todo el fondo del JFrame
         contenedor=(ImagePanel) this.getContentPane();
-        //Inicializo un layout
         contenedor.setLayout(new GridLayout(textoBotones.length, 1, 5, 5));
         
-        //Inicializo los objetos
        for (int x=0;x<textoBotones.length;x++) {
            botones[x]=new JButton();
            botones[x].setText(textoBotones[x]);
            botones[x].setActionCommand(Integer.toString(x));
            botones[x].addActionListener(this);
            
-           //AGREGAR UNA IMAGEN EN UN BOTON
-           //http://javacursoavanzado.blogspot.com.es/2012/10/poner-imagen-boton-java.html
-           //botones[x].set
            contenedor.add(botones[x]);
        }
-        //Atiendo a la ventana
        this.addWindowListener(this);
     }
 
@@ -105,45 +95,41 @@ public class MenuPrincipal extends JFrame implements ActionListener, WindowListe
         }        
     }
 
+    /**
+     * Cierra la ventana y la conexion a la base de datos
+     */
     private void fin() {
-        //db.cerrarConexion();
+        db.cerrarConexion();
         System.exit(0);
     }
     @Override
     public void windowOpened(WindowEvent e) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void windowClosing(WindowEvent e) {
         System.out.println("cerrando");
         fin();
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void windowClosed(WindowEvent e) {
         System.out.println("Cerrado");
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void windowIconified(WindowEvent e) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void windowDeiconified(WindowEvent e) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void windowActivated(WindowEvent e) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void windowDeactivated(WindowEvent e) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

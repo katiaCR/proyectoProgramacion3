@@ -1,28 +1,27 @@
-/*
- * Ventana para obtener los datos de los alumnos
- */
 package Interfaz;
-;
-import Datos.DataBase;
+
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
-/*
-TODAS LAS VENTANAS A CREAR SERAN EXTENDS DE VENTANA
-*/
+/**
+ * Esta clase abstracta permite crear una ventana y heredar metodos obligatorios
+ * @author katia abigail
+ * @version 14/05/2016
+ */
 public abstract class Ventana extends JFrame implements ActionListener {
 
     protected JPanel contenedor, cuerpo, botonesMenu;
     protected JButton botonFin, botonAux;    
 
+    /**
+     * Se encarga de crear el contenedor principal
+     */
     public Ventana() {
         contenedor = (JPanel) this.getContentPane();
         setTitle();
@@ -33,6 +32,9 @@ public abstract class Ventana extends JFrame implements ActionListener {
         this.pack();
     }
 
+    /**
+     * Inicializa los componentes del contenedor
+     */
     public void initComponents()
     {
         cuerpo = new JPanel();
@@ -41,31 +43,23 @@ public abstract class Ventana extends JFrame implements ActionListener {
         creaBotones();
     }
     
-   
+   /**
+    * Crea los botones 
+    */
     private void creaBotones() {
-        //Declaro el JPanel botones como un gridlayour de 1 fila
         botonesMenu.setLayout(new GridLayout(1,2,5,5));
-        //Creará los botones dejando el botón auxiliar sin texto 
-        //para que lo defina la clase que lo herede.
         botonFin=new JButton("Confirmar");
         botonFin.setActionCommand("Confirmar");
         botonFin.addActionListener(this);
         
         botonAux=new JButton("");
-        //pongo el texto en el botón aux que lo tendrá que hacer
-        //la ventana que lo herede
         textoBotonAux();
         botonAux.setActionCommand("Aux");
         botonAux.addActionListener(this);
-        //pongo los 2 botones en el JPanel
         botonesMenu.add(botonFin);
         botonesMenu.add(botonAux);
-        //añado el panel al contenedor
         contenedor.add(botonesMenu, BorderLayout.SOUTH);  
     }
-    
-    //Estos dos métodos son obligatorios para todas las ventanas
-    //Que hereden esta ventana
     
     //agrega un titulo a la ventana
     public abstract void setTitle();
@@ -96,7 +90,6 @@ public abstract class Ventana extends JFrame implements ActionListener {
                 confirmar();
                 break;
             case "Aux":
-                //System.out.println("Aux");
                 aux();
                 break;
         }

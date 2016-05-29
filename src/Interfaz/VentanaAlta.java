@@ -8,14 +8,13 @@ package Interfaz;
 import Datos.Almacen;
 import Datos.DataBase;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 /**
- *
- * @author Alumno
+ * Esta clase crea una ventana que da de alta a un almacen
+ * @author katia abigail
+ * @version 15/05/2016
  */
 public class VentanaAlta extends Ventana{
     
@@ -23,9 +22,11 @@ public class VentanaAlta extends Ventana{
     JLabel etiquetas [];
     JTextField camposText [];
     DataBase db;
-
+    
     public VentanaAlta(DataBase db) {
         this.db=db;
+        this.setLocation(300, 400);
+        this.setSize(400, 300);
     }
     
     @Override
@@ -34,24 +35,18 @@ public class VentanaAlta extends Ventana{
     }
     
     @Override
-    public void confirmar() {
-        try{            
-            if(tienenValor()){
-                if(camposText[2].getText().length()<10 && camposText[3].getText().length()<10){
-                    if (telfValido() && codPosValido() ) {
-                        newAlmacen = new Almacen(camposText[0].getText(),camposText[1].getText(),camposText[2].getText(),Integer.parseInt(camposText[3].getText()));
-                        System.out.println("NUEVOS DATOS:");
-                        newAlmacen.muestraDatos();
-                        db.alta(newAlmacen);
-                        limpiaVentana();
-                    }
-                }else{
-                    ventanaError("El máximo de caracteres es 10 en teléfono y código_postal");
+    public void confirmar() {        
+       if(tienenValor()){                
+            if(rsYssValido()){
+                if(telfYcodValido()){
+                    newAlmacen = new Almacen(camposText[0].getText(),camposText[1].getText(),camposText[2].getText(),Integer.parseInt(camposText[3].getText()));
+                    System.out.println("Nuevo Almacén:");
+                    newAlmacen.muestraDatos();
+                    db.alta(newAlmacen);
+                    limpiaVentana();
                 }
             }
-        }catch(NumberFormatException e){
-            ventanaError("No se ha podido dar de alta datos incorrectos");
-        }                
+        }         
     }
 
     @Override
@@ -60,8 +55,8 @@ public class VentanaAlta extends Ventana{
     }
 
     @Override
-    //método que se ejecutará cuando se pulse el botón aux
     public void aux() {
+        System.out.println("Cancelar");
         this.dispose();
     }
 
@@ -78,39 +73,67 @@ public class VentanaAlta extends Ventana{
             camposText[x].setName(nombreEtiquetas[x]);
             etiquetas[x]=new JLabel(nombreEtiquetas[x]);
             cuerpo.add(etiquetas[x]);
-            cuerpo.add(camposText[x]);            
+            cuerpo.add(camposText[x]);
        }                
         contenedor.add(cuerpo);
     }
     
+    /**
+     * Comprueban si todos los campos tienen un valor
+     * @return boolean
+     */
     private boolean tienenValor(){
         for (int x=0;x<camposText.length;x++) {
-            if(camposText[x].getText().length() > 0){
-                return true;              
+            if(camposText[x].getText().length() < 1){
+                ventanaError("Todos lo campos son obligatorios");
+                return false;              
             }
         }
-        ventanaError("Todos lo campos son obligatorios");
-        return false;
+        return true;
     }
     
-    private boolean telfValido(){
+    /**
+     * Comprueba si el telefono y el codigo postal son validos
+     * @return boolean
+     */
+    private boolean telfYcodValido(){
         try{
-            Integer.parseInt(camposText[2].getText());
-            return true;
+            if(camposText[2].getText().length()<11 && camposText[3].getText().length()<11){
+               Integer.parseInt(camposText[2].getText());
+               Integer.parseInt(camposText[3].getText());
+               return true;
+            }
+            else{
+                ventanaError("El máximo de caracteres es 10 en teléfono y código postal");
+                return false;
+            }
         }catch(NumberFormatException e){
-            throw e;
+            ventanaError("valor del teléfono o código postal invalido");
+            return false;
         }
     }
     
-    private boolean codPosValido(){
-        try{
-            Integer.parseInt(camposText[3].getText());
-            return true;
-        }catch(NumberFormatException e){
-            throw e;
+    /**
+     * Comprueba si la razon social y la sede social son validos
+     * @return boolean
+     */
+    private boolean rsYssValido(){
+        if(camposText[0].getText().length()<31){
+            if(camposText[1].getText().length()<51){
+                return true;
+            }else {
+                ventanaError("El máximo de caracteres es 50 en sede social");
+                return false;
+            }
+        }else {
+            ventanaError("El máximo de caracteres es 30 en razón social");
+            return false;
         }
     }
     
+    /**
+     * Limpia los campos
+     */
     void limpiaVentana(){
         for(int x=0; x<camposText.length;x++){
             camposText[x].setText(null);

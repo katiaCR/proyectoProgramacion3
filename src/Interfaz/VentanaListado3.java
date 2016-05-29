@@ -5,7 +5,6 @@
  */
 package Interfaz;
 
-import Datos.Almacen;
 import Datos.DataBase;
 import Datos.Pedido;
 import java.awt.BorderLayout;
@@ -19,8 +18,9 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
- *
- * @author Alumno
+ * Esta clase muestra un listado de los pedidos hecho por un almacen
+ * @author katia abigail
+ * @version 27/05/2016
  */
 public class VentanaListado3 extends JFrame{
     
@@ -40,7 +40,8 @@ public class VentanaListado3 extends JFrame{
         this.setVisible(true);
         initComponents();
         this.pack();
-        this.setSize(600,300);
+        this.setLocation(1200, 600);
+        this.setSize(600,200);
         
     }    
      public void initComponents() {
@@ -54,6 +55,9 @@ public class VentanaListado3 extends JFrame{
         muestraFilas();
     }
      
+     /**
+      * Agrega una fila por cada pedido en el ArrayList pedidos
+      */
      public void muestraFilas() {
         Pedido pe;
         ListIterator <Pedido> it =pedidos.listIterator();
@@ -62,10 +66,4 @@ public class VentanaListado3 extends JFrame{
             modelo.addRow(pe.getArrayPedido());
         }
      }  
-     public void ventanaError(String cadena) {
-        JOptionPane.showMessageDialog(
-                this, cadena,
-                "Error", JOptionPane.INFORMATION_MESSAGE);
-     
-    }
 }

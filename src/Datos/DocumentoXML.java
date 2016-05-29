@@ -1,11 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Datos;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -25,11 +19,17 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Text;
 
 /**
- *
- * @author Alumno
+ * Esta clase se encarga de generar el documento XML del listado de almacenes
+ * @author katia abigail
+ * @version 28/05/2016
  */
 public class DocumentoXML {
 
+    /**
+     * Genera el documento XML del ArrayList de almacenes existentes en ese momento
+     * @param nombreDocumento
+     * @param listado 
+     */
     public static void escribo(String nombreDocumento, ArrayList <Almacen> listado){
         
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -38,17 +38,12 @@ public class DocumentoXML {
             try {
                 db = dbf.newDocumentBuilder();
                 
-                //Creamos el documento XML y le pasamos la etiqueta raiz
-                
+                //Creamos el documento XML y le pasamos la etiqueta raiz                
                 DOMImplementation implementation = db.getDOMImplementation();
                 Document document = implementation.createDocument(null, nombreDocumento, null);
-                document.setXmlVersion("1.0");
-                
-                //Main Node: Primer ejemplos, sólo con el elemento raíz
+                document.setXmlVersion("1.0");                
                 Element raiz = document.getDocumentElement();
-                //ahora creamos un elemento con los datos del array
-                System.out.println("Raiz: " + raiz.getNodeName());
-                
+                             
                 for(Almacen al : listado){
                     Element etiquetaAlmacen= document.createElement("Almacen");
                                        
@@ -69,8 +64,6 @@ public class DocumentoXML {
                     etiquetaTelf.appendChild(valorTelf);
                     etiquetaCoPo.appendChild(valorCoPo);
                                         
-                    
-                                        
                     //añadimos las etiquetas al Almacén
                     etiquetaAlmacen.appendChild(etiquetaRazonSocial);
                     etiquetaAlmacen.appendChild(etiquetaSedeSocial);
@@ -80,24 +73,21 @@ public class DocumentoXML {
                     //añadimos el atributo id al Almacén
                     etiquetaAlmacen.setAttribute("id",Integer.toString(al.getId()));
                     
-                    //añadimos la etiqueta almacén a la etiqueta raiz
-                    System.out.println("almacén: " + etiquetaAlmacen.getChildNodes().item(0).getTextContent());
-                    System.out.println("razon_social: " + etiquetaRazonSocial.getTextContent());
-                    
-                    //pegamos el elemento a la raiz "Documento"
-                    raiz.appendChild(etiquetaAlmacen);                                        
+                    //añadimos la etiqueta almacén a la etiqueta raiz                    
+                    raiz.appendChild(etiquetaAlmacen);                                
                 }
                 
-                //Generate XML
+                //Genero el XML
                 Source source = new DOMSource(document);
-                System.out.println("documento: " + document.getDocumentElement().getNodeName());
                 //indicamos donde lo queremos almacenar
                 Result result = new StreamResult(new java.io.File(nombreDocumento+".xml"));
                 Transformer transformer = TransformerFactory.newInstance().newTransformer();
                 
                 transformer.setOutputProperty(OutputKeys.INDENT, "yes");
                 transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-                transformer.transform(source, result);                
+                transformer.transform(source, result);    
+                
+                System.out.println("Se ha creado el documento: " + document.getDocumentElement().getNodeName());
             
             } catch (ParserConfigurationException ex) {
                 System.out.println("Error escribiendo 1");

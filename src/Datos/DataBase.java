@@ -5,21 +5,18 @@
  */
 package Datos;
 
-import Datos.Almacen;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import oracle.jdbc.OracleDriver;
 
 /**
- *
- * @author Alumno2
+ * Esta clase se encarga de la gestión de la Base de Datos
+ * @author katia abigail
+ * @version 16/05/2016
  */
 public class DataBase {
     
@@ -29,20 +26,27 @@ public class DataBase {
     String user;
     Connection conexion=null;
     
+    /**
+     * Realiza la conexion a la base de datos con el usuario y password correspondiente
+     * @param bd
+     * @param user
+     * @param password 
+     */
     public DataBase(String bd, String user, String password) {
         this.bd = bd;
         this.user = user;
         this.password = password;
     }
     
+    /**
+     * Abre la conexion a la base de datos
+     * @return true si se ha podido conectar
+     */
     public boolean abrirConexion() {
         boolean estado = false;
         
         try {
-            //Cargamos el driver
-            //Class.forName("com.mysql.jdbc.Driver");
             DriverManager.registerDriver(new OracleDriver());
-            //Crear conexion a la BDD
             conexion = DriverManager.getConnection(servidor + bd, user, password);
             estado = true;
         } catch (SQLException ex) { System.out.println("SQL Exception: " +ex.getLocalizedMessage());
@@ -52,10 +56,10 @@ public class DataBase {
         return estado;
     }
     
-    private boolean compruebaID(String cadena){
-        return cadena.length()>0 && cadena.length() <=4;
-    }
-     
+    /**
+     * Se encarga de dar de alta a un almacen en la base de datos
+     * @param al 
+     */
      public void alta(Almacen al){
         PreparedStatement st;
         //sustituimos las variables por un ?        
@@ -79,6 +83,11 @@ public class DataBase {
         }
     }
     
+     /**
+      * Se encarga de dar de baja a un almacen en la base de datos
+      * @param al
+      * @return 
+      */
      public int baja(Almacen al){      
         int n=0;
         PreparedStatement st;
@@ -93,12 +102,73 @@ public class DataBase {
         } catch (SQLException ex) {
             System.out.println("Error con la base de datos: " + ex.getMessage());
         }
-         finally {
-             return n;
-         }
+        finally {
+            return n;
+        }
     }
     
+     /**
+      * Comprueba si exite un almacen con ese id en la BD
+      * @param id
+      * @return 
+      */
+    public boolean existeIdAlmacen(int id){
+        Almacen al= null;
+        ResultSet rs;
+        PreparedStatement st;
+        String sentencia = "SELECT * from almacenes where id_almacen =?";
+        System.out.println(sentencia);
+        try{
+            st= conexion.prepareStatement(sentencia);
+            st.setInt(1,id);
+            rs=st.executeQuery();
+            if(rs.next()){
+                al=new Almacen(rs.getInt(1),rs.getString(3), rs.getString(5), rs.getString(6), rs.getInt(7));
+                System.out.println("Id: " + al.getId());
+            }else{
+                return false;
+            }
+            rs.close();
+            st.close();            
+        } catch (SQLException ex) {
+            System.out.println("Error con la base de datos: " + ex.getMessage());
+        }
+        return true;
+    }
     
+    /**
+     * Busca un almacen en la BD
+     * @param id
+     * @return el almacen buscado, si no es encontrado devuelve null
+     */
+    public Almacen buscaAlmacen(int id){
+        Almacen al= null;
+        ResultSet rs;
+        PreparedStatement st;
+        String sentencia = "SELECT * from almacenes where id_almacen =?";
+        System.out.println(sentencia);
+        try{
+            st= conexion.prepareStatement(sentencia);
+            st.setInt(1,id);
+            rs=st.executeQuery();
+            if(rs.next()){
+                al=new Almacen(rs.getInt(1),rs.getString(3), rs.getString(5), rs.getString(6), rs.getInt(7));
+                System.out.println("Id: " + al.getId());
+                al.muestraDatos();
+            }
+            rs.close();
+            st.close();            
+        } catch (SQLException ex) {
+            System.out.println("Error con la base de datos: " + ex.getMessage());
+        }
+        return al;
+    }    
+    
+    /**
+     * Se encarga de modificar un almacen en la base de datos
+     * @param al
+     * @return true si ha sido modifiado
+     */
     public boolean modifica(Almacen al) {
         PreparedStatement st;
         String datos[]=al.getDatos();
@@ -122,7 +192,10 @@ public class DataBase {
         }
          return false;
     }
-         
+    
+    /**
+     * Cierra la conexion a la base de datos
+     */
     public void cerrarConexion() {
         try {
             conexion.close();
@@ -138,45 +211,11 @@ public class DataBase {
         }
     }
     
-    public int ejecutaUpdate(String statement) {
-        int n = 0;
-        
-        try {
-            Statement st = conexion.createStatement();
-            System.out.println("Sentencia: " +statement);
-            n = st.executeUpdate(statement);
-            //Para que la ejecute.
-        } catch (SQLException ex) {
-            System.out.println("Exception: " +ex.getLocalizedMessage());
-        }
-        
-        return n;
-    }
-    
-    public ResultSet ejecutaConsulta(String consulta){
-        Statement st=null;
-        ResultSet rs =null;
-        try {
-            st=conexion.createStatement();
-            rs=st.executeQuery(consulta);
-            
-        } catch (SQLException ex) {
-            System.out.println("Error sql: " + ex.getMessage());
-        }
-    System.out.println("SE EJECUTO CONSULTA BORRAR!!!");
-        return rs;
-    }
-    
-    public void recorreResultado(ResultSet rs){
-        try{
-            while(rs.next()){
-                System.out.println(rs.getString(1) + "\t" + rs.getString(2)+ "\t" + rs.getString(3)+ "\t" + rs.getString(4));
-            }
-        }catch(SQLException ex){
-            System.out.println("Error sql: " + ex.getMessage());
-        }
-    }
-    
+    /**
+     * Busca todos los almacenes en la base de datos en orden alfabetico,
+     * y los almacen cada uno en un objeto almacen
+     * @return un ArrayList con objetos tipo Almacen
+     */
     public ArrayList <Almacen> listado1(){
         ResultSet rs= null;
         PreparedStatement st =null;
@@ -199,6 +238,11 @@ public class DataBase {
             }    
     }
     
+    /**
+     * Busca en la BD según el id del producto todos los almacenes que hayan pedido alguna vez ese producto
+     * @param prodid
+     * @return un ArrayList de tipo Almacen
+     */
     public ArrayList <Almacen> listado2(int prodid){
         ResultSet rs= null;
         PreparedStatement st =null;
@@ -222,6 +266,11 @@ public class DataBase {
             }
     }
     
+    /**
+     * Busca los pedidos en la base de datos según el almacen
+     * @param almid
+     * @return un ArrayList de tipo Pedido
+     */
     public ArrayList <Pedido> listado3(int almid){
         ResultSet rs= null;
         PreparedStatement st =null;

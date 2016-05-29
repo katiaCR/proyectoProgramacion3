@@ -10,26 +10,18 @@ import Datos.DataBase;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.ListIterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 
 /**
- *
+ * Esta clase muestra una ventana con las opciones de listados
  * @author katia abigail
+ * @version 20/05/2016
  */
 public class VentanaListado extends JFrame implements ActionListener{
 
@@ -39,6 +31,10 @@ public class VentanaListado extends JFrame implements ActionListener{
     BufferedImage myImage;
     DataBase db;
     
+    /**
+     * Establece la BD y configura la ventana
+     * @param db BASE DE DATOS
+     */
     public VentanaListado(DataBase db) {
         this.db=db;
         almacenes = new ArrayList<>();
@@ -47,15 +43,18 @@ public class VentanaListado extends JFrame implements ActionListener{
         } catch (IOException ex) {
             System.out.println("No se ha encontrado imagen");
         }
-        this.almacenes=almacenes;
         this.setContentPane(new ImagePanel(myImage));
-        this.setTitle("Gestión Almacenes");
+        this.setTitle("Listado Almacenes");
         this.setVisible(true);
         initComponents();         
         this.pack();
+        this.setLocation(800, 100);
         this.setSize(350,250);
     }   
     
+    /**
+     * Agrega los componentes a la ventana
+     */
     private void initComponents() {
         String textoBotones[]={"Listado Almacen", 
             "Listado por producto","Pedidos por almacén"};
@@ -64,18 +63,17 @@ public class VentanaListado extends JFrame implements ActionListener{
         //Utilizo todo el fondo del JFrame
         contenedor=(ImagePanel) this.getContentPane();
         //Inicializo un layout
-        contenedor.setLayout(new GridLayout(textoBotones.length, 1, 5, 5));
-        
+        contenedor.setLayout(new GridLayout(textoBotones.length, 1, 5, 5));        
         //Inicializo los objetos
        for (int x=0;x<textoBotones.length;x++) {
            botones[x]=new JButton();
            botones[x].setText(textoBotones[x]);
            botones[x].setActionCommand(Integer.toString(x));
-           botones[x].addActionListener(this);
-           
+           botones[x].addActionListener(this);           
            contenedor.add(botones[x]);
        }
     }
+    
     @Override
     public void actionPerformed(ActionEvent e) {
 

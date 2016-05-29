@@ -1,19 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Interfaz;
 
-import Datos.Almacen;
 import Datos.DataBase;
 import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 /**
- *
- * @author Alumno
+ * Esta clase crea una ventana que da de baja a un almacen
+ * @author katia abigail
+ * @version 15/05/2016
  */
 public class VentanaBaja extends Ventana{
 
@@ -22,7 +17,9 @@ public class VentanaBaja extends Ventana{
     DataBase db;
     
     public VentanaBaja(DataBase db) {
-        this.db=db;
+        this.db=db;  
+        this.setLocation(1250, 500);
+        this.setSize(260, 125);
     }
 
     @Override
@@ -32,21 +29,18 @@ public class VentanaBaja extends Ventana{
 
     @Override
     public void confirmar() {
-        try{
-            if(id.getText().length()>0){
-                if(idValido()){
-                    if(db.baja(new Almacen(Integer.parseInt(id.getText())))>0){
-                        System.out.println("Almacen dado de baja con exito");
-                        limpiaVentana();
-                    }else{
-                        ventanaError("No se ha encontrado ningún almacén con ese id");
-                    }                    
+        
+        if(id.getText().length()>0 && id.getText().length()<5){
+            if(idValido()){
+                if(db.existeIdAlmacen(Integer.parseInt(id.getText()))){
+                    VentanaConfirma vc = new VentanaConfirma(db, Integer.parseInt(id.getText()));
+                    limpiaVentana();
+                }else{
+                    ventanaError("No existe un almacén con ese id");
                 }
-            }else{
-                ventanaError("tienes que introducir un id");
             }
-        }catch(NumberFormatException e){
-            ventanaError("valor del id inválido");
+        }else{
+            ventanaError("tienes que introducir un id valido, máximo 4 caracteres");
         }
     }
     
@@ -57,14 +51,13 @@ public class VentanaBaja extends Ventana{
 
     @Override
     public void aux() {
+        System.out.println("Cancelar");
         this.dispose();
     }
 
     @Override
-    public void creaCuerpo() {   
-        
-        cuerpo.setLayout(new GridLayout(1,2,5,5));     
-        //EL ID debe ser borrardo y en alta poner insert into (sec.nexvalue)               
+    public void creaCuerpo() {          
+        cuerpo.setLayout(new GridLayout(1,2,5,5));                  
         etiquetaID = new JLabel("almacén id: ");        
         id =new JTextField();        
             cuerpo.add(etiquetaID);
@@ -72,16 +65,24 @@ public class VentanaBaja extends Ventana{
         contenedor.add(cuerpo);    
     }
     
+    /**
+     * Comprueba el id
+     * @return boolean
+     */
     private boolean idValido(){
         try{
             Integer.parseInt(id.getText());
             return true;
         }catch(NumberFormatException e){
-            throw e;
+            ventanaError("valor del id inválido");
+            return false;
         }
     }
     
-     void limpiaVentana(){
+    /**
+     * Limpia los campos
+     */
+    void limpiaVentana(){
         id.setText(null);
     }
 }

@@ -11,8 +11,10 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 /**
- *
- * @author Alumno
+ * Esta clase se encarga de crear una ventana
+ * para pedir el id valido de un almacén  y generar un listado
+ * @author katia abigail
+ * @version 27/05/2016
  */
 public class Valmacen extends Ventana{
 
@@ -22,6 +24,8 @@ public class Valmacen extends Ventana{
     
     public Valmacen(DataBase db) {
         this.db=db;
+        this.setLocation(500, 100);
+        this.setSize(260, 125);
     }
 
     @Override
@@ -62,8 +66,7 @@ public class Valmacen extends Ventana{
     @Override
     public void creaCuerpo() {
         
-        cuerpo.setLayout(new GridLayout(1,2,5,5)); 
-        //EL ID debe ser borrardo y en alta poner insert into (sec.nexvalue)               
+        cuerpo.setLayout(new GridLayout(1,2,5,5));              
         etiquetaID = new JLabel("almacén id: ");        
         almid =new JTextField();        
             cuerpo.add(etiquetaID);

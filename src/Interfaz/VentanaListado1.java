@@ -7,7 +7,6 @@ package Interfaz;
 
 import Datos.Almacen;
 import java.awt.BorderLayout;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ListIterator;
 import javax.swing.JFrame;
@@ -17,8 +16,9 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
- *
- * @author Alumno
+ * Esta clase muestra un listado de los almacenes en orden alfabetico
+ * @author katia abigail
+ * @version 27/05/2016
  */
 public class VentanaListado1 extends JFrame{
     
@@ -27,6 +27,10 @@ public class VentanaListado1 extends JFrame{
     DefaultTableModel modelo;
     ArrayList <Almacen> almacenes;
     
+    /**
+     * Establece el arraylist almacenes y configura la ventana
+     * @param almacenes 
+     */
     public VentanaListado1(ArrayList<Almacen> almacenes) {
         
         this.almacenes=almacenes;   
@@ -34,10 +38,13 @@ public class VentanaListado1 extends JFrame{
         this.setVisible(true);
         initComponents();
         this.pack();
-        this.setSize(600,300);
-        
+        this.setLocation(1200, 200);
+        this.setSize(600,200);
     }
     
+    /**
+     * Agrega los componentes a la ventana
+     */
      public void initComponents() {
         contenedor = (JPanel) this.getContentPane();
         String[] cabecera = {"Id","Razón Social","Sede Social","Telefono Contacto","Código Postal"};
@@ -48,6 +55,9 @@ public class VentanaListado1 extends JFrame{
         muestraFilas();
     }
      
+     /**
+      * Agrega una fila por cada almacen en el ArrayList almacenes
+      */
      public void muestraFilas() {
         Almacen al;
         ListIterator <Almacen> it =almacenes.listIterator();

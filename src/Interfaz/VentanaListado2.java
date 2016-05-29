@@ -11,15 +11,15 @@ import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.ListIterator;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
- *
- * @author Alumno
+ * Esta clase muestra un listado de los almacenes segun el producto que hayan pedido
+ * @author katia abigail
+ * @version 27/05/2016
  */
 public class VentanaListado2 extends JFrame{
     
@@ -39,7 +39,8 @@ public class VentanaListado2 extends JFrame{
         this.setVisible(true);
         initComponents();
         this.pack();
-        this.setSize(600,300);
+        this.setLocation(1200, 400);
+        this.setSize(600,200);
         
     }    
      public void initComponents() {
@@ -53,6 +54,10 @@ public class VentanaListado2 extends JFrame{
         muestraFilas();
     }
      
+     
+     /**
+      * Agrega una fila por cada almacen en el ArrayList almacenes
+      */
      public void muestraFilas() {
         Almacen al;
         ListIterator <Almacen> it =almacenes.listIterator();
@@ -60,11 +65,5 @@ public class VentanaListado2 extends JFrame{
             al= it.next();
             modelo.addRow(al.getArrayAlmacen());
         }
-     }  
-     public void ventanaError(String cadena) {
-        JOptionPane.showMessageDialog(
-                this, cadena,
-                "Error", JOptionPane.INFORMATION_MESSAGE);
-     
-    }
+     }       
 }
